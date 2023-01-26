@@ -12,7 +12,10 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
 
 def index(request):
     posts = Women.objects.all()
+    сats = Category.objects.all()
+
     context = {
+        'cats': cats,
         'posts': posts,
         'menu': menu,
         'title': 'Главная страница'
@@ -42,3 +45,7 @@ def pageNotFound(request, exception):
 
 def show_post(request, post_id):
     return HttpResponse(f'Статья с индефикатором {post_id}')
+
+
+def show_category(request, cat_id):
+    return HttpResponse(f'Категория с индефикатором {cat_id}')

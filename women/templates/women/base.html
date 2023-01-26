@@ -33,10 +33,19 @@
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
+{% if cat_selected == 0 %}
 		<li class="selected">Все категории</li>
-		<li><a href="#">Актрисы</a></li>
-		<li><a href="#">Певицы</a></li>
-		<li><a href="#">Спортсменки</a></li>
+{% else %}
+		<li><a href="{% url 'home' %}">Все категории</a></li>
+{% endif %}
+
+{% for c in cats %}
+		{% if c.pk == cat_selected %}
+			<li class="selected">{{c.name}}</li>
+		{% else %}
+			<li><a href="{{c.get_absolute_url}}"></a>{{c.name}}</li>
+		{% endif %}
+{% endfor %}
 		<li class="share">
 		<p>Наш канал</p>
 		<a class="share-yt" href="https://www.youtube.com/channel/UClJzWfGWuGJL2t-3dYKcHTA/playlists" target="_blank" rel="nofollow"></a>
