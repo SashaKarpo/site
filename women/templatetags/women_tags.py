@@ -1,5 +1,5 @@
 from django import template
-from coolsite.women.models import *
+from women.models import *
 
 register = template.Library()
 
