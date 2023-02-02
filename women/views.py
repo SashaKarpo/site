@@ -17,6 +17,16 @@ class WomenHome(ListView):
     template_name = 'women/index.html'
     context_object_name = 'posts'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Главная страница'
+        context['cat_selected'] = 0
+        return context
+
+    def get_queryset(self):
+        return Women.objects.filter(is_published=True)
+
 
 # def index(request):
 #    posts = Women.objects.all()
