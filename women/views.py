@@ -81,16 +81,32 @@ def show_post(request, post_slug):
     return render(request, 'women/post.html', context=context)
 
 
-def show_category(request, cat_id):
-    posts = Women.objects.filter(cat_id=cat_id)
+class WomenCategory(ListView):
+    model = Women
+    template_name = 'women/index.html'
+    context_object_name = 'posts'
+    allow_empty = False
 
-    if len(posts) == 0:
-        raise Http404
+    def get_queryset(self):
+        return Women.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
 
-    context = {
-        'posts': posts,
-        'menu': menu,
-        'title': 'Отображение по рубрикам',
-        'cat_selected': cat_id,
-    }
-    return render(request, 'women/index.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Категория - ' + str(context['posts'][0].cat)
+        context['menu'] = menu
+        context['cat_selected'] = context['posts'][0].cat_id
+        return context
+
+# def show_category(request, cat_id):
+#    posts = Women.objects.filter(cat_id=cat_id)
+#
+#    if len(posts) == 0:
+#        raise Http404
+#
+#    context = {
+#        'posts': posts,
+#        'menu': menu,
+#        'title': 'Отображение по рубрикам',
+#        'cat_selected': cat_id,
+#    }
+#    return render(request, 'women/index.html', context=context)
