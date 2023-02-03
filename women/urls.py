@@ -8,6 +8,6 @@ urlpatterns = [
     path('addpage/', addpage, name='add_page'),
     path('contact/', contact, name='contact'),
     path('login/', login, name='login'),
-    path('post/<slug:post_slug>/', show_post, name='post'),
+    path('post/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('category/<slug:cat_slug>/', WomenCategory.as_view(), name='category')
 ]

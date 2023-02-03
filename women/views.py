@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import *
 from .forms import *
@@ -69,16 +69,29 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
-def show_post(request, post_slug):
-    post = get_object_or_404(Women, slug=post_slug)
+class ShowPost(DetailView):
+    model = Women
+    template_name = 'women/post.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'
 
-    context = {
-        'post': post,
-        'menu': menu,
-        'title': post.title,
-        'cat_selected': post.cat_id,
-    }
-    return render(request, 'women/post.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['post']
+        context['menu'] = menu
+        return context
+
+
+# def show_post(request, post_slug):
+#    post = get_object_or_404(Women, slug=post_slug)
+#
+#    context = {
+#        'post': post,
+#        'menu': menu,
+#        'title': post.title,
+#        'cat_selected': post.cat_id,
+#    }
+#    return render(request, 'women/post.html', context=context)
 
 
 class WomenCategory(ListView):
