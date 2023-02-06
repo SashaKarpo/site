@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm
+
 
 from .forms import *
 from .models import *
@@ -151,7 +151,7 @@ class RegisterUser(DataMixin, CreateView):
 
 
 class LoginUser(DataMixin, LoginView):
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'women/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
