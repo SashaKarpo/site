@@ -5,7 +5,12 @@
 
 <form method="post">
   {%csrf_token %}
-  {{form.as_p }}
-  <button type="sumbit">Регисрация</button>
+
+  {% for f in form %}
+  <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}</label>{{ f }}</p>
+  <div class="form-error">{{ f.errors }}</div>
+  {% endfor %}
+
+  <button type="sumbit">Регистрация</button>
 </form>
 {% endblock %}
