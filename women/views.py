@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
 
 
 from .forms import *
@@ -161,3 +162,8 @@ class LoginUser(DataMixin, LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
