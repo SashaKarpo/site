@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 
 
 from .forms import *
@@ -149,6 +149,11 @@ class RegisterUser(DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Регистрация')
         return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
 
 
 class LoginUser(DataMixin, LoginView):
